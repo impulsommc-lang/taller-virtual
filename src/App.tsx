@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 
 // Meta Pixel type declaration
 declare global {
@@ -656,6 +657,8 @@ export default function App() {
       <AnimatePresence>
         {isQuizOpen && <QuizOverlay key="quiz-overlay-main" onClose={() => setIsQuizOpen(false)} />}
       </AnimatePresence>
+      
+      <Analytics />
     </div>
   );
 }
