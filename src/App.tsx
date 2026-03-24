@@ -224,66 +224,138 @@ const BenefitsSection = () => (
   </section>
 );
 
-const InstructorTestimonialSection = () => (
-  <section className="py-24 bg-slate-900 border-y border-slate-800">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
-        {/* Instructor */}
-        <div>
-          <span className="text-violet-400 font-semibold tracking-wider uppercase text-sm mb-2 block">Sobre el Instructor</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Aprende con un experto en producto y diseño.</h2>
-          <p className="text-slate-400 text-lg mb-6 leading-relaxed">
-            He ayudado a cientos de emprendedores y freelancers a lanzar su presencia digital sin complicaciones técnicas. Mi objetivo es que dejes de procrastinar y tengas tu web lista hoy mismo, usando las mejores prácticas de la industria de forma simplificada.
-          </p>
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-slate-800 border-2 border-violet-500 overflow-hidden">
-               <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=1e293b" alt="Instructor" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <div className="text-white font-bold text-lg">Alex Dev</div>
-              <div className="text-slate-400 text-sm">Senior Frontend & UX Specialist</div>
-            </div>
-          </div>
-        </div>
+const TESTIMONIALS = [
+  {
+    quote: "Pensé que necesitaba saber código o gastar miles en una agencia, pero en una hora ya tenía mi página arriba. El método de Nilton es increíblemente fácil de seguir.",
+    name: "María Fernández",
+    role: "Consultora Independiente",
+    avatar: "/images/testimonial-maria.jpg",
+  },
+  {
+    quote: "Súper práctico y directo al grano. Ahorré muchísimo dinero y tiempo. Ahora mi negocio tiene un catálogo profesional online gracias al taller.",
+    name: "Carlos Ruiz",
+    role: "Dueño de Negocio",
+    avatar: "/images/testimonial-carlos.jpg",
+  },
+];
 
-        {/* Testimonials */}
-        <div className="space-y-6">
-          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 relative">
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => <Star key={`star1-${i}`} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
-            </div>
-            <p className="text-slate-300 italic mb-6 text-lg">
-              "Pensé que necesitaba saber código o gastar miles en una agencia, pero en una hora ya tenía mi página arriba. El método es increíblemente fácil de seguir."
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-slate-800 overflow-hidden">
-                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&backgroundColor=1e293b" alt="User" />
-              </div>
-              <div>
-                <div className="text-white font-semibold text-sm">María Fernández</div>
-                <div className="text-slate-500 text-xs">Consultora Independiente</div>
-              </div>
+const INSTRUCTOR_STATS = [
+  { value: "+500", label: "alumnos formados" },
+  { value: "5 años", label: "de experiencia" },
+  { value: "98%", label: "tasa de satisfacción" },
+];
+
+const InstructorSection = () => (
+  <section id="instructor" className="py-28 bg-slate-900 border-t border-slate-800">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="text-center mb-16">
+        <span className="inline-block text-violet-400 font-semibold tracking-widest uppercase text-sm mb-3">Tu instructor</span>
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-balance">Aprende de quien ya lo ha logrado</h2>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        {/* Photo */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative flex justify-center lg:justify-start"
+        >
+          <div className="relative w-72 md:w-80">
+            {/* Decorative ring */}
+            <div className="absolute -inset-3 rounded-3xl border border-violet-500/20" />
+            <div className="absolute -inset-6 rounded-3xl border border-violet-500/10" />
+            <img
+              src="/images/nilton-giron.jpg"
+              alt="Nilton Giron, instructor del taller"
+              className="relative z-10 w-full rounded-3xl object-cover shadow-2xl shadow-violet-900/30"
+            />
+            {/* Floating badge */}
+            <div className="absolute z-20 -bottom-5 -right-5 bg-violet-600 text-white px-4 py-3 rounded-2xl shadow-lg shadow-violet-900/40 flex items-center gap-2">
+              <Star className="w-5 h-5 fill-yellow-300 text-yellow-300" />
+              <span className="font-bold text-sm">4.9 / 5 valoración</span>
             </div>
           </div>
-          
-          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 relative ml-0 lg:ml-8">
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, i) => <Star key={`star2-${i}`} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
-            </div>
-            <p className="text-slate-300 italic mb-6 text-lg">
-              "Súper práctico y directo al grano. Ahorré muchísimo dinero y tiempo. Ahora mi negocio tiene un catálogo profesional online."
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-slate-800 overflow-hidden">
-                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos&backgroundColor=1e293b" alt="User" />
+        </motion.div>
+
+        {/* Bio */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <h3 className="text-4xl font-extrabold text-white mb-1">Nilton Giron</h3>
+          <p className="text-violet-400 font-semibold mb-6 tracking-wide">Especialista en Desarrollo Web & Estrategia Digital</p>
+
+          <p className="text-slate-300 text-lg leading-relaxed mb-5">
+            Nilton lleva más de 5 años ayudando a emprendedores, freelancers y pequeñas empresas a construir su presencia digital desde cero, sin tecnicismos y con resultados reales.
+          </p>
+          <p className="text-slate-400 leading-relaxed mb-8">
+            Su metodología se basa en un principio simple: <span className="text-white font-semibold">aprender haciendo</span>. Cada taller es una sesión 100% práctica donde los participantes terminan con su página web publicada antes de cerrar la laptop. Ha formado a más de 500 personas en Latinoamérica que hoy tienen presencia digital profesional.
+          </p>
+
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4">
+            {INSTRUCTOR_STATS.map((stat, idx) => (
+              <div key={idx} className="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-center">
+                <div className="text-2xl font-extrabold text-white">{stat.value}</div>
+                <div className="text-slate-500 text-xs mt-1">{stat.label}</div>
               </div>
-              <div>
-                <div className="text-white font-semibold text-sm">Carlos Ruiz</div>
-                <div className="text-slate-500 text-xs">Dueño de Negocio</div>
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
+        </motion.div>
+      </div>
+    </div>
+  </section>
+);
+
+const TestimonialsSection = () => (
+  <section className="py-28 bg-slate-950 border-b border-slate-800">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="text-center mb-16">
+        <span className="inline-block text-violet-400 font-semibold tracking-widest uppercase text-sm mb-3">Testimonios</span>
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-balance">Lo que dicen quienes ya lo vivieron</h2>
+        <p className="text-slate-400 mt-4 text-lg">Resultados reales de personas reales.</p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {TESTIMONIALS.map((t, idx) => (
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.15, duration: 0.5 }}
+            className="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col justify-between hover:border-violet-500/30 transition-colors"
+          >
+            {/* Stars */}
+            <div className="flex gap-1 mb-5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+              ))}
+            </div>
+
+            {/* Quote */}
+            <p className="text-slate-300 leading-relaxed text-lg italic mb-8 flex-1">
+              "{t.quote}"
+            </p>
+
+            {/* Author */}
+            <div className="flex items-center gap-4 pt-6 border-t border-slate-800">
+              <img
+                src={t.avatar}
+                alt={t.name}
+                className="w-14 h-14 rounded-full object-cover ring-2 ring-violet-500/40"
+              />
+              <div>
+                <div className="text-white font-bold">{t.name}</div>
+                <div className="text-slate-500 text-sm">{t.role}</div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   </section>
@@ -571,7 +643,8 @@ export default function App() {
         <Hero onStartQuiz={() => setIsQuizOpen(true)} />
         <CurriculumSection />
         <BenefitsSection />
-        <InstructorTestimonialSection />
+        <InstructorSection />
+        <TestimonialsSection />
         <FAQSection />
       </main>
 
