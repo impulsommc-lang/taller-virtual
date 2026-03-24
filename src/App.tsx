@@ -1,4 +1,17 @@
 import React, { useState, useEffect } from 'react';
+
+// Meta Pixel type declaration
+declare global {
+  interface Window {
+    fbq: (...args: unknown[]) => void;
+  }
+}
+
+const trackMetaEvent = (eventName: string, params?: Record<string, unknown>) => {
+  if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+    window.fbq('track', eventName, params);
+  }
+};
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   CheckCircle2, 
@@ -75,24 +88,37 @@ const FAQS = [
 
 // --- COMPONENTS ---
 
-const Navbar = ({ onStartQuiz }: { onStartQuiz: () => void }) => (
-  <nav className="fixed top-0 w-full z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <Zap className="w-6 h-6 text-violet-500 fill-violet-500" />
-        <span className="font-bold text-xl tracking-tight text-white">WebEn<span className="text-violet-500">60</span></span>
-      </div>
-      <button 
-        onClick={onStartQuiz}
-        className="text-sm font-semibold bg-white text-slate-900 px-4 py-2 rounded-full hover:bg-slate-200 transition-colors"
-      >
-        Evaluar mi perfil
-      </button>
-    </div>
-  </nav>
-);
+const Navbar = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
+  const handleCTA = () => {
+    trackMetaEvent('ViewContent', { content_name: 'CTA Navbar - Evaluar mi perfil' });
+    onStartQuiz();
+  };
 
-const Hero = ({ onStartQuiz }: { onStartQuiz: () => void }) => (
+  return (
+    <nav className="fixed top-0 w-full z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Zap className="w-6 h-6 text-violet-500 fill-violet-500" />
+          <span className="font-bold text-xl tracking-tight text-white">WebEn<span className="text-violet-500">60</span></span>
+        </div>
+        <button 
+          onClick={handleCTA}
+          className="text-sm font-semibold bg-white text-slate-900 px-4 py-2 rounded-full hover:bg-slate-200 transition-colors"
+        >
+          Evaluar mi perfil
+        </button>
+      </div>
+    </nav>
+  );
+};
+
+const Hero = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
+  const handleCTA = () => {
+    trackMetaEvent('ViewContent', { content_name: 'CTA Hero - ¿Este taller es para mí?' });
+    onStartQuiz();
+  };
+
+  return (
   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-600/20 blur-[120px] rounded-full pointer-events-none" />
     <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
@@ -125,7 +151,7 @@ const Hero = ({ onStartQuiz }: { onStartQuiz: () => void }) => (
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <button 
-            onClick={onStartQuiz}
+            onClick={handleCTA}
             className="w-full sm:w-auto px-8 py-4 bg-violet-600 hover:bg-violet-500 text-white rounded-full font-bold text-lg shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] transition-all flex items-center justify-center gap-2 group"
           >
             ¿Este taller es para mí?
@@ -141,7 +167,8 @@ const Hero = ({ onStartQuiz }: { onStartQuiz: () => void }) => (
       </motion.div>
     </div>
   </section>
-);
+  );
+};
 
 const CurriculumSection = () => (
   <section id="temario" className="py-24 bg-slate-900 border-y border-slate-800">
@@ -503,6 +530,7 @@ const QuizOverlay = ({ onClose }: { onClose: () => void }) => {
                   href={WA_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackMetaEvent('Lead', { content_name: 'Formulario completo - Inscribirme por WhatsApp' })}
                   className="w-full inline-flex items-center justify-center gap-3 px-8 py-5 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full font-bold text-xl shadow-[0_0_30px_rgba(37,211,102,0.3)] hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] transition-all group"
                 >
                   <MessageCircle className="w-6 h-6" />
