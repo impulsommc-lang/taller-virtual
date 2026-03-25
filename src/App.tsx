@@ -36,61 +36,76 @@ import {
 // --- DATA STRUCTURES (Simulating /data/ files) ---
 
 const WA_NUMBER = "51960873225";
-const WA_MESSAGE = "Hola, terminé el quiz. Quiero asegurar mi cupo para el Taller de Páginas Web de este sábado a las 8pm (S/ 80).";
-const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_MESSAGE)}`;
+
+const buildWaLink = (answers: string[]) => {
+  const experiencia = answers[0] || "No especificado";
+  const objetivo    = answers[1] || "No especificado";
+  const freno       = answers[2] || "No especificado";
+  const message =
+    `Hola Nilton, acabo de terminar el quiz y quiero inscribirme al taller 🙌\n\n` +
+    `Mis respuestas:\n` +
+    `• Mi experiencia: ${experiencia}\n` +
+    `• Lo que quiero crear: ${objetivo}\n` +
+    `• Lo que me ha frenado: ${freno}\n\n` +
+    `¡Quiero asegurar mi cupo para el taller del sábado a las 8 PM (S/ 97)!`;
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+};
+
+// Link genérico para el botón flotante y navbar (sin datos de quiz)
+const WA_LINK = buildWaLink([]);
 
 const QUIZ_DATA = [
   {
-    question: "¿Cuál es tu nivel de experiencia creando páginas web?",
+    question: "¿Cuánto sabes sobre hacer páginas web?",
     options: [
-      { id: "q1-1", text: "Ninguno (Empiezo de cero)" },
-      { id: "q1-2", text: "Básico (He usado plantillas antes)" },
-      { id: "q1-3", text: "Intermedio (Conozco algo de código)" }
+      { id: "q1-1", text: "Nada. Empiezo de cero." },
+      { id: "q1-2", text: "Poquito. He visto algo por internet." },
+      { id: "q1-3", text: "Algo. He tocado código antes." }
     ]
   },
   {
-    question: "¿Para qué necesitas una página web?",
+    question: "¿Para qué quieres tu página web?",
     options: [
-      { id: "q2-1", text: "Página para vender mis servicios" },
-      { id: "q2-2", text: "Catálogo para mi negocio" },
-      { id: "q2-3", text: "Portafolio profesional" }
+      { id: "q2-1", text: "Para vender mis servicios" },
+      { id: "q2-2", text: "Para mostrar los productos de mi negocio" },
+      { id: "q2-3", text: "Para tener mi portafolio profesional" }
     ]
   },
   {
-    question: "¿Qué te ha impedido lanzarla hasta ahora?",
+    question: "¿Qué te ha frenado hasta ahora?",
     options: [
-      { id: "q3-1", text: "Falta de tiempo" },
-      { id: "q3-2", text: "Presupuesto limitado" },
-      { id: "q3-3", text: "No saber por dónde empezar" }
+      { id: "q3-1", text: "No tengo tiempo" },
+      { id: "q3-2", text: "No tengo mucho dinero para invertir" },
+      { id: "q3-3", text: "No sé por dónde empezar" }
     ]
   }
 ];
 
 const CURRICULUM = [
-  { time: "Minuto 0-15", title: "Estructura y diseño ganador", desc: "Aprende la anatomía de una página que convierte visitas en clientes.", icon: LayoutTemplate },
-  { time: "Minuto 15-30", title: "Creando el contenido sin estrés", desc: "Fórmulas sencillas para escribir textos persuasivos rápidamente.", icon: Code2 },
-  { time: "Minuto 30-45", title: "Configurando herramientas clave", desc: "Conecta tu dominio, WhatsApp y formularios de contacto.", icon: Zap },
-  { time: "Minuto 45-60", title: "Publicación y lanzamiento en vivo", desc: "Haz clic en 'Publicar' y comparte tu nueva web con el mundo.", icon: Rocket }
+  { time: "Minuto 0–15", title: "Arma tu estructura en minutos", desc: "Descubres cómo ordenar tu página para que los visitantes quieran quedarse.", icon: LayoutTemplate },
+  { time: "Minuto 15–30", title: "Escribe tu texto sin complicarte", desc: "Frases simples y directas que explican lo que haces y convencen a la gente.", icon: Code2 },
+  { time: "Minuto 30–45", title: "Conecta todo sin saber código", desc: "Tu dominio, tu WhatsApp y tu formulario de contacto, listos en un clic.", icon: Zap },
+  { time: "Minuto 45–60", title: "Publicas tu web en vivo, ahora", desc: "Presionas el botón y tu página ya está en internet. Así de simple.", icon: Rocket }
 ];
 
 const BENEFITS = [
-  { title: "100% Práctico", desc: "Paso a paso, clic a clic. Cero teoría aburrida.", icon: MonitorPlay },
-  { title: "Herramientas Gratuitas", desc: "No gastarás dinero extra en software o plataformas caras.", icon: ShieldCheck },
-  { title: "Acceso de por vida", desc: "Vuelve a ver la grabación del taller cuantas veces quieras.", icon: PlayCircle },
-  { title: "Plantillas de regalo", desc: "Estructuras pre-diseñadas listas para rellenar con tu información.", icon: CheckCircle2 }
+  { title: "Haces, no solo miras", desc: "Todo es práctico. Cada paso lo haces tú en tiempo real.", icon: MonitorPlay },
+  { title: "Todo gratis", desc: "No necesitas pagar nada extra. Usamos herramientas 100% gratuitas.", icon: ShieldCheck },
+  { title: "Lo guardas para siempre", desc: "Puedes ver la grabación del taller cuando quieras, las veces que quieras.", icon: PlayCircle },
+  { title: "Plantillas listas", desc: "Te damos diseños ya armados. Solo los rellenas con tu info.", icon: CheckCircle2 }
 ];
 
 const FAQS = [
-  { q: "¿Necesito conocimientos previos?", a: "No, en absoluto. El taller está diseñado para principiantes absolutos. Empezamos desde cero y te guiamos paso a paso." },
-  { q: "¿Las herramientas que usaremos son de pago?", a: "Te enseñaremos a utilizar herramientas gratuitas de nivel profesional. Solo invertirás si decides comprar tu propio dominio (opcional)." },
-  { q: "¿Qué pasa si no puedo asistir en vivo?", a: "No te preocupes. Todos los inscritos reciben la grabación completa en alta calidad y las plantillas para verlo a su propio ritmo." }
+  { q: "¿Necesito saber algo de tecnología?", a: "Para nada. El taller está hecho justo para personas que empiezan de cero. Vamos paso a paso y te explicamos todo." },
+  { q: "¿Tengo que pagar por las herramientas?", a: "No. Todo lo que usamos es gratis. Solo pagarías si en el futuro quieres comprar tu propio dominio, pero eso es opcional." },
+  { q: "¿Qué pasa si no puedo estar en vivo?", a: "Sin problema. Todos los inscritos reciben la grabación completa y las plantillas para verlo cuando puedan." }
 ];
 
 // --- COMPONENTS ---
 
 const Navbar = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
   const handleCTA = () => {
-    trackMetaEvent('ViewContent', { content_name: 'CTA Navbar - Evaluar mi perfil' });
+    trackMetaEvent('ViewContent', { content_name: 'CTA Navbar - Ver si el taller es para mí' });
     onStartQuiz();
   };
 
@@ -105,7 +120,7 @@ const Navbar = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
           onClick={handleCTA}
           className="text-sm font-semibold bg-white text-slate-900 px-4 py-2 rounded-full hover:bg-slate-200 transition-colors"
         >
-          Evaluar mi perfil
+          Ver si es para mí
         </button>
       </div>
     </nav>
@@ -115,8 +130,7 @@ const Navbar = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
 const Hero = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
   const handleCTA = () => {
     trackMetaEvent('ViewContent', { content_name: 'CTA Hero - ¿Este taller es para mí?' });
-    onStartQuiz();
-  };
+    onStartQuiz();  };
 
   return (
   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -129,13 +143,13 @@ const Hero = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
       >
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-sm font-medium mb-6">
           <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
-          Taller Virtual Intensivo En Vivo
+          Taller en vivo este sabado
         </span>
         <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
-          Crea tu propia página web profesional en <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-400">solo 60 minutos.</span>
+          Tu pagina web lista en <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-400">solo 60 minutos.</span>
         </h1>
         <p className="text-lg md:text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-          Sin experiencia previa, sin programar y listo para lanzar hoy mismo. Descubre si este taller interactivo es exactamente lo que necesitas.
+          Sin saber código. Sin experiencia. Sin complicaciones. Hoy mismo puedes tener tu propia página web funcionando.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
@@ -145,7 +159,7 @@ const Hero = ({ onStartQuiz }: { onStartQuiz: () => void }) => {
           </div>
           <div className="flex items-center gap-2 text-slate-300 bg-slate-900/80 px-5 py-3 rounded-full border border-slate-800 shadow-sm">
             <Tag className="w-5 h-5 text-green-400" />
-            <span className="font-medium">Inversión: S/ 80</span>
+            <span className="font-medium">Inversión: S/ 97</span>
           </div>
         </div>
         
@@ -174,8 +188,8 @@ const CurriculumSection = () => (
   <section id="temario" className="py-24 bg-slate-900 border-y border-slate-800">
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Qué aprenderás paso a paso</h2>
-        <p className="text-slate-400 text-lg">Un método probado para ir de cero a publicado en una hora.</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">¿Qué vas a hacer en el taller?</h2>
+        <p className="text-slate-400 text-lg">En 60 minutos vas de cero a tu página web publicada. Así es como:</p>
       </div>
       
       <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
@@ -207,7 +221,7 @@ const BenefitsSection = () => (
   <section className="py-24 bg-slate-950">
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Todo lo que incluye el taller</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">¿Qué viene incluido?</h2>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {BENEFITS.map((item, idx) => (
@@ -226,13 +240,13 @@ const BenefitsSection = () => (
 
 const TESTIMONIALS = [
   {
-    quote: "Pensé que necesitaba saber código o gastar miles en una agencia, pero en una hora ya tenía mi página arriba. El método de Nilton es increíblemente fácil de seguir.",
+    quote: "Yo no sabía nada de páginas web. En una hora ya tenía la mía funcionando. Nilton lo explica tan fácil que parece magia.",
     name: "María Fernández",
     role: "Consultora Independiente",
     avatar: "/images/testimonial-maria.jpg",
   },
   {
-    quote: "Súper práctico y directo al grano. Ahorré muchísimo dinero y tiempo. Ahora mi negocio tiene un catálogo profesional online gracias al taller.",
+    quote: "Súper práctico. Sin rodeos. Ahorré mucho dinero y tiempo. Ahora mi negocio tiene su propio espacio en internet y yo mismo lo hice.",
     name: "Carlos Ruiz",
     role: "Dueño de Negocio",
     avatar: "/images/testimonial-carlos.jpg",
@@ -250,7 +264,7 @@ const InstructorSection = () => (
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <div className="text-center mb-16">
         <span className="inline-block text-violet-400 font-semibold tracking-widest uppercase text-sm mb-3">Tu instructor</span>
-        <h2 className="text-3xl md:text-4xl font-bold text-white text-balance">Aprende de quien ya lo ha logrado</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-balance">Aprende con alguien que ya lo hizo</h2>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -290,10 +304,10 @@ const InstructorSection = () => (
           <p className="text-violet-400 font-semibold mb-6 tracking-wide">Especialista en Desarrollo Web & Estrategia Digital</p>
 
           <p className="text-slate-300 text-lg leading-relaxed mb-5">
-            Nilton lleva más de 5 años ayudando a emprendedores, freelancers y pequeñas empresas a construir su presencia digital desde cero, sin tecnicismos y con resultados reales.
+            Nilton lleva más de 5 años ayudando a emprendedores y pequeños negocios a poner su primera página web en internet. Sin rodeos, sin tecnicismos, solo resultados.
           </p>
           <p className="text-slate-400 leading-relaxed mb-8">
-            Su metodología se basa en un principio simple: <span className="text-white font-semibold">aprender haciendo</span>. Cada taller es una sesión 100% práctica donde los participantes terminan con su página web publicada antes de cerrar la laptop. Ha formado a más de 500 personas en Latinoamérica que hoy tienen presencia digital profesional.
+            Su secreto es simple: <span className="text-white font-semibold">aprender haciendo</span>. En cada taller, los participantes terminan con su página publicada antes de cerrar la computadora. Más de 500 personas en Latinoamérica ya tienen su presencia digital gracias a Nilton.
           </p>
 
           {/* Stats */}
@@ -316,8 +330,8 @@ const TestimonialsSection = () => (
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <div className="text-center mb-16">
         <span className="inline-block text-violet-400 font-semibold tracking-widest uppercase text-sm mb-3">Testimonios</span>
-        <h2 className="text-3xl md:text-4xl font-bold text-white text-balance">Lo que dicen quienes ya lo vivieron</h2>
-        <p className="text-slate-400 mt-4 text-lg">Resultados reales de personas reales.</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-balance">Lo que dicen los que ya lo hicieron</h2>
+        <p className="text-slate-400 mt-4 text-lg">Personas reales. Resultados reales.</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -366,7 +380,7 @@ const FAQSection = () => {
   return (
     <section className="py-24 bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">Preguntas Frecuentes</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">Preguntas que se hace la gente</h2>
         <div className="space-y-4">
           {FAQS.map((faq, idx) => (
             <div key={idx} className="border border-slate-800 rounded-2xl overflow-hidden bg-slate-900/50">
@@ -433,7 +447,7 @@ const FloatingWhatsApp = ({ isHidden }: { isHidden: boolean }) => (
       >
         <MessageCircle className="w-8 h-8" />
         <span className="absolute right-full mr-4 bg-slate-900 text-white text-sm py-2 px-4 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg border border-slate-800">
-          ¡Inscríbete ahora!
+          ¡Reserva tu lugar!
         </span>
       </motion.a>
     )}
@@ -480,7 +494,7 @@ const QuizOverlay = ({ onClose }: { onClose: () => void }) => {
           <X className="w-6 h-6" />
         </button>
         {!showResult && !isAnalyzing && (
-          <span className="text-slate-400 text-sm font-medium">Paso {currentStep + 1} de {QUIZ_DATA.length}</span>
+          <span className="text-slate-400 text-sm font-medium">Pregunta {currentStep + 1} de {QUIZ_DATA.length}</span>
         )}
       </div>
       <div className="w-full h-1.5 bg-slate-900">
@@ -543,8 +557,8 @@ const QuizOverlay = ({ onClose }: { onClose: () => void }) => {
                 <div className="absolute inset-2 border-r-4 border-indigo-400 rounded-full animate-spin direction-reverse opacity-70" />
                 <Zap className="absolute inset-0 m-auto w-8 h-8 text-violet-400 animate-pulse" />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">Analizando tus respuestas...</h2>
-              <p className="text-slate-400">Preparando tu plan personalizado</p>
+              <h2 className="text-2xl font-bold text-white mb-2">Revisando tus respuestas...</h2>
+              <p className="text-slate-400">Un momento, ya casi terminamos</p>
             </motion.div>
           )}
 
@@ -565,33 +579,33 @@ const QuizOverlay = ({ onClose }: { onClose: () => void }) => {
                 </div>
                 
                 <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-                  ¡Eres el candidato ideal!
+                  ¡Este taller es para ti!
                 </h2>
                 
                 <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
-                  El taller está diseñado exactamente para quienes buscan crear su <span className="text-violet-400 font-bold">{answers[1]?.toLowerCase()}</span> y que actualmente están frenados por <span className="text-violet-400 font-bold">{answers[2]?.toLowerCase()}</span>.
+                  Quieres <span className="text-violet-400 font-bold">{answers[1]?.toLowerCase()}</span> y lo que te ha frenado es <span className="text-violet-400 font-bold">{answers[2]?.toLowerCase()}</span>. En 60 minutos lo resolvemos juntos.
                 </p>
 
                 <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 mb-10 text-left">
-                  <h3 className="font-semibold text-white mb-4">Tu plan de acción para hoy:</h3>
+                  <h3 className="font-semibold text-white mb-4">Esto es lo que vas a lograr hoy:</h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3 text-slate-300">
                       <CheckCircle2 className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" />
-                      Superar la barrera técnica empezando desde tu nivel ({answers[0]?.split(' ')[0]}).
+                      Empezar desde tu nivel ({answers[0]?.split(' ')[0]}) y avanzar sin perderte.
                     </li>
                     <li className="flex items-start gap-3 text-slate-300">
                       <CheckCircle2 className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" />
-                      Aplicar las plantillas exactas para tu objetivo.
+                      Usar plantillas listas para tu tipo de página.
                     </li>
                     <li className="flex items-start gap-3 text-slate-300">
                       <CheckCircle2 className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" />
-                      Tener tu web 100% publicada en 60 minutos.
+                      Publicar tu web antes de que termine la clase.
                     </li>
                   </ul>
                 </div>
 
                 <div className="mb-8 flex flex-col items-center justify-center gap-2 bg-violet-900/20 py-4 rounded-2xl border border-violet-500/30">
-                   <div className="text-3xl md:text-4xl font-extrabold text-white">S/ 80 <span className="text-lg text-slate-400 font-normal">pago único</span></div>
+                   <div className="text-3xl md:text-4xl font-extrabold text-white">S/ 97 <span className="text-lg text-slate-400 font-normal">pago único</span></div>
                    <div className="text-violet-300 flex items-center gap-2 font-medium">
                      <Calendar className="w-5 h-5"/> 
                      Clase en vivo: Este Sábado 8:00 PM
@@ -599,7 +613,7 @@ const QuizOverlay = ({ onClose }: { onClose: () => void }) => {
                 </div>
                 
                 <a 
-                  href={WA_LINK}
+                  href={buildWaLink(answers)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackMetaEvent('Lead', { content_name: 'Formulario completo - Inscribirme por WhatsApp' })}
@@ -609,7 +623,7 @@ const QuizOverlay = ({ onClose }: { onClose: () => void }) => {
                   Inscribirme por WhatsApp
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <p className="mt-4 text-sm text-slate-500">Cupos limitados. Atención inmediata por WhatsApp.</p>
+                <p className="mt-4 text-sm text-slate-500">Cupos limitados. Te respondemos al instante.</p>
               </div>
             </motion.div>
           )}
